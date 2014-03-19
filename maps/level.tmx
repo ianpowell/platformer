@@ -3,7 +3,7 @@
  <tileset firstgid="1" name="basicTextures" tilewidth="64" tileheight="64">
   <image source="../assets/basicTextures.png" width="256" height="128"/>
  </tileset>
- <layer name="Tile Layer 1" width="32" height="32">
+ <layer name="Solid" width="32" height="32">
   <data encoding="base64" compression="zlib">
    eJztl9sKgCAMhmcne/8nTqGLsqnN6abg4AcJ5Js7aRYArLJ2JT350jb5k5/iG0SSfIBvn0rzWxqXj+WHkqda5y/N0ejxb83n5PbP/hw/dldSfEjVRu/xn3zcuHOHwzfwrqfwHUXxofT82JuxpD84+ce4oQ85P7j8sKep90Cv9e/jtjitTpsC36+P+/tZgRPrU6n4jzL/U3OthUK+5v+npi7dwQdo
   </data>

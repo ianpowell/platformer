@@ -75,10 +75,10 @@ function love.load()
 			
 			self.y_vel = self.y_vel + (world.gravity * dt)
 			
-			self.x_vel = math.clamp(self.x_vel, -self.speed, self.speed)
-			self.y_vel = math.clamp(self.y_vel, -self.flySpeed, self.flySpeed)
+			self.x_vel = math.clamp(self.x_vel, - self.speed, self.speed)
+			self.y_vel = math.clamp(self.y_vel, - self.flySpeed, self.flySpeed)
 			
-			local nextY = (self.y_vel * dt)
+			local nextY = self.y + (self.y_vel * dt)
 			if self.y_vel < 0 then
 				if not (self:isColliding(map, self.x + halfX, nextY - halfY))
 					and not (self:isColliding(map, self.x + halfX - 1, nextY - halfY)) then
@@ -102,7 +102,7 @@ function love.load()
 		
 			local nextX = self.x + (self.x_vel * dt)
 			if self.x_vel > 0 then
-				if not(self:isColliding(map, next + halfX, self.y - halfY)) 
+				if not(self:isColliding(map, nextX + halfX, self.y - halfY)) 
 					and not(self:isColliding(map, nextX + halfX, self.y + halfY - 1))then
 				self.x = nextX
 				else
@@ -110,8 +110,8 @@ function love.load()
 				end
 			elseif self.x_vel < 0 then
 				if not(self:isColliding(map, nextX - halfX, self.y - halfY))
-					and not(self.isColliding(map, nextX - halfX, self.y + halfY -1)) then
-					self.x = nextX
+					and not(self:isColliding(map, nextX - halfX, self.y + halfY -1)) then
+					self.y = nextY
 				else
 					self.x = nextX + map.tileWidth - ((nextX - halfX) % map.tileWidth)
 				end
@@ -121,7 +121,7 @@ function love.load()
 		end	
 
 		function player:isColliding(map, x, y)
-			local layer = map.t1["solid"]
+			local layer = map.t1["Solid"]
 			local tileX, tileY = math.floor(x / map.tileWidth), math.floor(y / map.tileHeight)
 			local tile = layer.tileData(tileX, tileY)
 			return not(tile == nil)
@@ -179,7 +179,7 @@ function love.update(dt) -- dt mean delta time which is check for the time betwe
 	
 	player:update(dt)
 	
-	camera:setPostion(player.x - (love.graphics.getWidth() / 2), player.y - (love.graphics.getHeight() / 2))
+	camera:setPostion( player.x - (love.graphics.getWidth ()/2), player.y - (love.graphics.getHeight ()/2))
 	
 	
 end
