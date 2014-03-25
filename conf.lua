@@ -23,10 +23,12 @@ function love.conf(t)--t stands for table
 	
 	t.title = "Platformer"
 	t.author =  "Ian Powell"
-	t.screen.fullscreen = false
-	t.screen.vsync = false --not for debugging
-	t.screen.faaa = 0 --i think this may be anti aliassing
-	t.screen.height = 600
-	t.screen.width = 800
+
+    -- "screen" is nil.
+	--t.screen.fullscreen = false
+	--t.screen.vsync = false --not for debugging
+	--t.screen.faaa = 0 --i think this may be anti aliassing
+	--t.screen.height = 600
+	--t.screen.width = 800
 	
 end

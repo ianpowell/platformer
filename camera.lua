@@ -15,9 +15,9 @@ camera.rotation = 0
 
 function camera.set()
 	love.graphics.push()
-	love.graphics.rotate(-self.rotation)
-	love.graphics.scale(1 / self.sx, 1 / self.sy)
-	love.graphics.translate(-self.x, -self.y)
+	love.graphics.rotate(-camera.rotation)
+	love.graphics.scale(1 / camera.sx, 1 / camera.sy)
+	love.graphics.translate(-camera.x, -camera.y)
 end
 
 function camera:unset()
@@ -50,7 +50,7 @@ end
 
 function camera:setY(value)
 	if self._bounds then
-		self.y = math.clump(value, self._bounds.y1, self._bounds.y2)
+		self.y = math.clamp(value, self._bounds.y1, self._bounds.y2)
 	else
 			self.y = value
 	end

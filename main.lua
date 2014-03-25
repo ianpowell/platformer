@@ -15,6 +15,7 @@ function love.load()
 	AdvTiledLoader.path = "maps/"
 	map =AdvTiledLoader.load("level.tmx")
 	map:setDrawRange(0, 0, map.width * map.tileWidth, map.height * map.tileHeight)
+	print(map)
 	
 	camera:setBounds(0, 0, map.width * map.tileWidth - love.graphics.getWidth(), map.height * map.tileHeight - love.graphics.getHeight())
 
@@ -58,6 +59,7 @@ function love.load()
 	function player:stop()
 			self.x_vel = 0
 	end
+    function math.clamp(n, low, high) return math.min(math.max(n, low), high) end 
 		
 		function player:collide(event)
 			if event == "floor" then
@@ -111,7 +113,8 @@ function love.load()
 			elseif self.x_vel < 0 then
 				if not(self:isColliding(map, nextX - halfX, self.y - halfY))
 					and not(self:isColliding(map, nextX - halfX, self.y + halfY -1)) then
-					self.y = nextY
+					--self.y = nextY
+                    self.x = nextX + map.tileWidth - ((nextX - halfX) % map.tileWidth) 
 				else
 					self.x = nextX + map.tileWidth - ((nextX - halfX) % map.tileWidth)
 				end
@@ -121,11 +124,10 @@ function love.load()
 		end	
 
 		function player:isColliding(map, x, y)
-			local layer = map.t1["Solid"]
+			local layer = map.layers["Solid"]
 			local tileX, tileY = math.floor(x / map.tileWidth), math.floor(y / map.tileHeight)
-			local tile = layer.tileData(tileX, tileY)
+			local tile = layer:get(tileX, tileY)
 			return not(tile == nil)
-			
 		end
 		
 		function player:getState()
