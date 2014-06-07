@@ -13,7 +13,7 @@ function love.load()
 
 	love.graphics.setBackgroundColor( 220, 220, 255)
 	AdvTiledLoader.path = "maps/"
-	map =AdvTiledLoader.load("level.tmx")
+	map = AdvTiledLoader.load("level.tmx")
 	map:setDrawRange(0, 0, map.width * map.tileWidth, map.height * map.tileHeight)
 	print(map)
 	
@@ -53,7 +53,7 @@ function love.load()
 	end
 		
 	function player:left()
-			self.x_vel = -1 * (self.speed)
+			self.x_vel = self.speed * -1 
 	end
 		
 	function player:stop()
@@ -113,10 +113,9 @@ function love.load()
 			elseif self.x_vel < 0 then
 				if not(self:isColliding(map, nextX - halfX, self.y - halfY))
 					and not(self:isColliding(map, nextX - halfX, self.y + halfY -1)) then
-					--self.y = nextY
-                    self.x = nextX + map.tileWidth - ((nextX - halfX) % map.tileWidth) 
+					self.x = nextX
 				else
-					self.x = nextX + map.tileWidth - ((nextX - halfX) % map.tileWidth)
+					self.x = nextX - ((nextX + halfX) % map.tileHeight)
 				end
 			end
 			
@@ -167,18 +166,28 @@ function love.update(dt) -- dt mean delta time which is check for the time betwe
 		dt = 0.05
 	end
 	
-	if love.keyboard.isDown("a") then
+	if love.keyboard.isDown("a") or love.keyboard.isDown("left") then
 		player:left()
-	end
+  end
 	
-	if love.keyboard.isDown("d") then
+	if love.keyboard.isDown("d") or love.keyboard.isDown("right") then
 		player:right()
-	end
+  end
 
 	if love.keyboard.isDown(" ") and not (hasJumped) then
 		player:jump()
 	end
 	
+  function love.keyreleased(key)
+    if key == "a" or key == "d" or key == "left" or key == "right" then
+      player:stop()
+    end
+    
+    if key == "escape" then
+      love.event.quit()
+    end
+  end
+  
 	player:update(dt)
 	
 	camera:setPostion( player.x - (love.graphics.getWidth ()/2), player.y - (love.graphics.getHeight ()/2))
