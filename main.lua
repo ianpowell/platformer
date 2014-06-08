@@ -7,16 +7,23 @@
 --
 
 local AdvTiledLoader = require("AdvTiledLoader.Loader")
+local background = love.graphics.newImage("assets/sky1.png")
+
+local player = love.graphics.newImage("assets/fullSpriteSheet.png")
+local sprite = love.graphics.newSpriteBatch(player, 9)
+
 require("camera")
+require("AnAL")
 
 function love.load()
-
 	love.graphics.setBackgroundColor( 220, 220, 255)
 	AdvTiledLoader.path = "maps/"
 	map = AdvTiledLoader.load("level.tmx")
 	map:setDrawRange(0, 0, map.width * map.tileWidth, map.height * map.tileHeight)
 	print(map)
-	
+  
+  anim = newAnimation(player, 64, 64, 0.1, 0)
+  
 	camera:setBounds(0, 0, map.width * map.tileWidth - love.graphics.getWidth(), map.height * map.tileHeight - love.graphics.getHeight())
 
 	world =		{
@@ -72,6 +79,9 @@ function love.load()
 		end
 		
 		function player:update(dt)
+      
+      anim:update(dt)
+      
 			local halfX = self.w / 2
 			local halfY = self.h / 2
 			
@@ -150,9 +160,20 @@ function love.load()
 		end
 end
 function love.draw()
+  
+  anim:draw(player.x - player.w / 2, player.y - player.h / 2, player.w, player.h)
+  
+  for i = 0, love.graphics.getWidth() / background:getWidth() do
+        for j = 0, love.graphics.getHeight() / background:getHeight() do
+            love.graphics.draw(background, i * background:getWidth(), j * background:getHeight())
+        end
+    end
 	camera:set()
 	
 	love.graphics.setColor(0, 0, 0)
+  
+  
+  
 	love.graphics.rectangle("fill", player.x - player.w / 2, player.y - player.h / 2, player.w, player.h)
 	
 	love.graphics.setColor(225, 255, 255)
